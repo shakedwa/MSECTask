@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "uaenorth"
+        },
+        "networkInterfaceName": {
+            "value": "msectaskvm769"
+        },
+        "networkSecurityGroupName": {
+            "value": "MSECTaskVM-nsg"
+        },
+        "networkSecurityGroupRules": {
+            "value": [
+                {
+                    "name": "RDP",
+                    "properties": {
+                        "priority": 300,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "3389"
+                    }
+                },
+                {
+                    "name": "HTTP",
+                    "properties": {
+                        "priority": 320,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "80"
+                    }
+                }
+            ]
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "virtualNetworkName": {
+            "value": "MSECTaskResourceGroup-vnet"
+        },
+        "addressPrefixes": {
+            "value": [
+                "10.6.0.0/16"
+            ]
+        },
+        "subnets": {
+            "value": [
+                {
+                    "name": "default",
+                    "properties": {
+                        "addressPrefix": "10.6.0.0/24"
+                    }
+                }
+            ]
+        },
+        "publicIpAddressName": {
+            "value": "MSECTaskVM-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        },
+        "publicIpAddressSku": {
+            "value": "Basic"
+        },
+        "virtualMachineName": {
+            "value": "MSECTaskVM"
+        },
+        "virtualMachineComputerName": {
+            "value": "MSECTaskVM"
+        },
+        "virtualMachineRG": {
+            "value": "MSECTaskResourceGroup"
+        },
+        "osDiskType": {
+            "value": "Premium_LRS"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "adminUsername": {
+            "value": "MSECTaskVMAdmin"
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "patchMode": {
+            "value": "AutomaticByOS"
+        },
+        "enableHotpatching": {
+            "value": false
+        }
+    }
+}

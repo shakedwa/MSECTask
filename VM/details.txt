@@ -1,0 +1,2 @@
+username: MSECTaskVMAdmin
+password: TaskVM1password

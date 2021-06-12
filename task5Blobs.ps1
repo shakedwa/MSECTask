@@ -116,7 +116,7 @@ function copyBlobs {
 }
 
 createFiles
-#install
+install
 connect
 $rgname = 'MSECTaskResourceGroup'
 $storageaccountname = '0storagercuz53g4tezru'

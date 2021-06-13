@@ -5,9 +5,6 @@
         "location": {
             "value": "uaenorth"
         },
-        "storageAccountName": {
-            "value": "firststorageacc090621"
-        },
         "accountType": {
             "value": "Standard_RAGRS"
         },

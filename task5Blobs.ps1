@@ -10,35 +10,35 @@ function createFiles{
   }
 }
 
-function install {
+function installNeededModuls {
   write-host "Installing AzureRM "
   Install-Module AzureRM -force
 }
 
-function connect {
-  
+function connectToAzAccount {
  write-host "Connecting"
-  Connect-AzAccount
-  write-host "Connection Succeed."
+ Connect-AzAccount
+ write-host "Connection Succeed."
 }
 
  function getStorageAccount {
-
-      $storageAccount = Get-AzStorageAccount `
-          -ResourceGroupName $rgname `
-          -Name $storageaccountname `
-          -ErrorAction SilentlyContinue
-      $context = $storageAccount.Context
-      return $context
-
-   param (
-      $rgname,
-      $storageaccountname
-   )
+    param (
+        $rgname,
+        $storageaccountname
+    )
+    $storageAccount = Get-AzStorageAccount `
+        -ResourceGroupName $rgname `
+        -Name $storageaccountname `
+        -ErrorAction SilentlyContinue
+    $context = $storageAccount.Context
+    return $context
  }
 
  function createContainer {
-
+    param (
+      $containerName,
+      $context
+    )
     $container = Get-AzStorageContainer `
       -Name $containerName `
       -Context $context `
@@ -53,45 +53,44 @@ function connect {
       -Permission blob    
     } 
     return $container
-
-  param (
-    $containerName,
-    $context
-  )
 }
 
 function uploadFiles {
-
-if($container)
-{
-    $files = Get-ChildItem -Path $fileslocation
-    foreach ($file in $files)
-    {
-          $ext = (Split-Path -Path $file -Leaf).Split(".")[1];
-          Set-AzStorageBlobContent `
-          -File (-join($fileslocation , $file)) `
-          -Container $containerName `
-          -Blob $([guid]::NewGuid().ToString() + "." + $ext)  `
-          -Context $context
-    }
-    $blobs = Get-AzStorageBlob `
-      -Container $containerName `
-      -Context $context
-    $totalfiles = $blobs.Count                                                                
-    write-host -ForegroundColor Green $totalfiles `
-                "files are uploaded successfully"
-    return $blobs
-}
   param (
     $container,
     $fileslocation,
     $containerName,
     $context
   )
+  if($container)
+  {
+      $files = Get-ChildItem -Path $fileslocation
+      foreach ($file in $files)
+      {
+            $ext = (Split-Path -Path $file -Leaf).Split(".")[1];
+            Set-AzStorageBlobContent `
+            -File (-join($fileslocation , $file)) `
+            -Container $containerName `
+            -Blob $([guid]::NewGuid().ToString() + "." + $ext)  `
+            -Context $context
+      }
+      $blobs = Get-AzStorageBlob `
+        -Container $containerName `
+        -Context $context
+      $totalfiles = $blobs.Count                                                                
+      write-host -ForegroundColor Green $totalfiles `
+                  "files are uploaded successfully"
+      return $blobs
+  }
 }
 
 function copyBlobs {
-
+  param (
+    $blobs,
+    $containerName,
+    $context,
+    $context2
+  )
   foreach ($blob in $blobs){
     Start-AzStorageBlobCopy -SrcBlob $blob.name `
     -SrcContainer $containerName `
@@ -107,22 +106,18 @@ function copyBlobs {
   write-host -ForegroundColor Green $totalfiles2 `
             "files are copyed successfully"
   return $blobs         
-  param (
-    $blobs,
-    $containerName,
-    $context,
-    $context2
-  )
 }
 
-createFiles
-install
-connect
+
 $rgname = 'MSECTaskResourceGroup'
 $storageaccountname = '0storagercuz53g4tezru'
 $storageaccountname2 = '1storagercuz53g4tezru'
 $containerName = 'msectaskcontainer'
 $fileslocation = "$pwd\Files\"
+
+createFiles
+#installNeededModuls
+connectToAzAccount
 
 #get first storage account
 $retContextVal = getStorageAccount -rgname $rgname -storageaccountname $storageaccountname

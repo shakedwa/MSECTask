@@ -90,7 +90,7 @@
             "value": "MSECTaskVMAdmin"
         },
         "adminPassword": {
-            "value": null
+            "value":  TaskVM1password
         },
         "patchMode": {
             "value": "AutomaticByOS"

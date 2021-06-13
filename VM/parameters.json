@@ -78,7 +78,7 @@
             "value": "MSECTaskVM"
         },
         "virtualMachineRG": {
-            "value": "MSECTaskResourceGroup"
+            "value": "ShakedWaMSECTaskResourceGroup"
         },
         "osDiskType": {
             "value": "Premium_LRS"

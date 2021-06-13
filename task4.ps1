@@ -1,6 +1,6 @@
 function installNeededModuls {
   write-host "Installing AzureRM "
-  Install-Module AzureRM -force
+  Install-Module AzureRM -force -AllowClobber
 }
 
 function connectToAzAccount {

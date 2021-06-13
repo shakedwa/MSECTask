@@ -1,5 +1,5 @@
 function createFiles{
-    1..5 | foreach { 
+    1..100 | foreach { 
       $file = "$pwd\Files\$_.txt"
       if (!([System.IO.File]::Exists($file))){
           new-item -path $file 
@@ -12,7 +12,7 @@ function createFiles{
 
 function installNeededModuls {
   write-host "Installing AzureRM "
-  Install-Module AzureRM -force
+  Install-Module AzureRM -force -AllowClobber
 }
 
 function connectToAzAccount {
@@ -104,7 +104,7 @@ function copyBlobs {
   -Context $context2
   $totalfiles2 = $blobs2.Count                                                                
   write-host -ForegroundColor Green $totalfiles2 `
-            "files are copyed successfully"
+            "files are copied successfully"
   return $blobs         
 }
 
@@ -115,32 +115,26 @@ $storageaccountname2 = '1storage33twwzdzbaoms'
 $containerName = 'msectaskcontainer'
 $fileslocation = "$pwd\Files\"
 
-write-host "got to task5"
-
 createFiles
 #installNeededModuls
 connectToAzAccount
 
 #get first storage account
 $retContextVal = getStorageAccount -rgname $rgname -storageaccountname $storageaccountname
-$context = $retContextVal[0]
 
 #create first container match the first storage account
-$retContainerVal = createContainer -containerName $containerName -context $context
-$container = $retContainerVal[0]
+$retContainerVal = createContainer -containerName $containerName -context $retContextVal
 
 #get second storage account
-$retContextVal = getStorageAccount -rgname $rgname -storageaccountname $storageaccountname2
-$context2 = $retContextVal[0]
+$retContextVal2 = getStorageAccount -rgname $rgname -storageaccountname $storageaccountname2
 
 #create second container match the second storage account
-$retContainerVal = createContainer -containerName $containerName -context $context2
+$retContainerVal = createContainer -containerName $containerName -context $retContextVal2
 
 #Upload files and get the files count
 #uploaded in the blob container.
-$retBlobVal = uploadFiles -container $container -fileslocation $fileslocation -containerName $containerName -context $context
-$blobs = $retBlobVal[0]
+$retBlobVal = uploadFiles -container $retContainerVal -fileslocation $fileslocation -containerName $containerName -context $retContextVal
 
 #iteration over all blob in storage accout and copy to second storage accout
-copyBlobs -blobs $blobs -containerName $containerName -context $context -context2 $context2
+copyBlobs -blobs $retBlobVal -containerName $containerName -context $retContextVal -context2 $retContextVal2
       

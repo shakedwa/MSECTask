@@ -68,6 +68,6 @@ createResourceGroup -rgname $rgname -rgLocation $rgLocation
 
 #deploy storage account template
 deployStorageAccount -rgname $rgname -templateStorageFilePath $templateStorageFilePath -templateStorageParamsFilePath $templateStorageParamsFilePath
-#deployTemplate -rgname $rgname -templateFilePath $templateStorageFilePath -templateParametesFile $templateStorageParamsFilePath 
+
 #deploy server template
 deployServer -rgname $rgname -templateServerFilePath $templateServerFilePath -templateServerParamsFilePath $templateServerParamsFilePath

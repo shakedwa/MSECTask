@@ -109,11 +109,13 @@ function copyBlobs {
 }
 
 
-$rgname = 'MSECTaskResourceGroup'
-$storageaccountname = '0storagercuz53g4tezru'
-$storageaccountname2 = '1storagercuz53g4tezru'
+$rgname = 'ShakedWaMSECTaskResourceGroup'
+$storageaccountname = '0storage33twwzdzbaoms'
+$storageaccountname2 = '1storage33twwzdzbaoms'
 $containerName = 'msectaskcontainer'
 $fileslocation = "$pwd\Files\"
+
+write-host "got to task5"
 
 createFiles
 #installNeededModuls

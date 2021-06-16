@@ -10,7 +10,7 @@ Small system of 1 server and 2 storage accounts.
 3) stoageAccount - ARM template for storage account
 
 #### Scripts:
-1) task4.ps1 - deploy the Storage accounts and the server in a continuous manne
+1) task4.ps1 - deploy the Storage accounts and the server in a continuous manner
 2) task5Blobs.ps1 - create, upload and copy 100 blobs from Storage account A to B
 
 
